@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  microcamp-mysql:
+    image: mysql:8.0.25
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: microcamp
+    ports:
+      - 3370:3306
+    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
