@@ -11,6 +11,8 @@ import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class InitOrderComponent {
@@ -28,6 +30,12 @@ public class InitOrderComponent {
             shopOrderRepository.save(createShopOrder(customer));
             shopOrderRepository.save(createShopOrder(customer));
             shopOrderRepository.save(createShopOrder(customer2));
+        }else {
+            Customer customer = customerRepository.findById(1L).orElseThrow();
+
+            for (int i = 0; i < 50; i++) {
+                shopOrderRepository.save(createShopOrder(customer));
+            }
         }
     }
 

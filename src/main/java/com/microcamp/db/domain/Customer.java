@@ -21,6 +21,10 @@ public class Customer {
         this.dateBirth = dateBirth;
     }
 
+    public Customer(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
