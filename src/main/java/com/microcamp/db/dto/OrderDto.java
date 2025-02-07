@@ -21,5 +21,6 @@ public class OrderDto {
     @Min(1)
     private Long customerId;
 
+    private int version;
 
 }

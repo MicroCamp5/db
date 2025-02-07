@@ -26,5 +26,7 @@ public class ShopOrder {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @Version
+    private int version;
 
 }

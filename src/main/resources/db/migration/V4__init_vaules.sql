@@ -1,0 +1,1 @@
+UPDATE shop_order set version = 1;

@@ -1,8 +1,10 @@
 package com.microcamp.db;
 
 
+import com.microcamp.db.domain.ShopOrder;
 import com.microcamp.db.dto.OrderCustomerDto;
 import com.microcamp.db.dto.OrderDto;
+import com.microcamp.db.service.OrderCriteria;
 import com.microcamp.db.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public Page<OrderCustomerDto> orders(@ParameterObject Pageable pageable){
-        return orderService.findAll(pageable);
+    public Page<OrderDto> orders(@ParameterObject OrderCriteria orderCriteria, @ParameterObject Pageable pageable){
+        return orderService.findAll(orderCriteria, pageable);
     }
 
     @PostMapping
@@ -34,5 +36,12 @@ public class OrderController {
 
         return orderService.save(order);
     }
+
+    @PutMapping("/{id}")
+    public OrderDto update(@PathVariable() Long id, @Valid @RequestBody OrderDto order){
+        order.setId(id);
+        return orderService.save(order);
+    }
+
 
 }

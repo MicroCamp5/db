@@ -1,0 +1,1 @@
+alter table shop_order add column_name int default 1 not null;
