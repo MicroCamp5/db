@@ -7,11 +7,8 @@ import com.microcamp.db.dto.OrderDto;
 import com.microcamp.db.mapper.OrderCustomerMapper;
 import com.microcamp.db.mapper.OrderMapper;
 import com.microcamp.db.repository.ShopOrderRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +23,7 @@ public class OrderService {
     private final ShopOrderRepository shopOrderRepository;
     private final OrderMapper orderMapper;
     private final OrderCustomerMapper orderCustomerMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional(readOnly = true)
     public List<OrderDto> findByCustomerId(Long customerId) {
@@ -42,6 +40,7 @@ public class OrderService {
     @Transactional
     public OrderDto save(OrderDto order) {
         ShopOrder savedOrder = shopOrderRepository.save(orderMapper.toEntity(order));
+        applicationEventPublisher.publishEvent(new OrderWasCreatedEvent(this, order.getName()));
         return orderMapper.toDto(savedOrder);
     }
 
