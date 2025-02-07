@@ -1,6 +1,8 @@
 package com.microcamp.db.service;
 
+import com.microcamp.db.dto.OrderCustomerDto;
 import com.microcamp.db.dto.OrderDto;
+import com.microcamp.db.mapper.OrderCustomerMapper;
 import com.microcamp.db.mapper.OrderMapper;
 import com.microcamp.db.repository.ShopOrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.List;
 public class OrderService {
     private final ShopOrderRepository shopOrderRepository;
     private final OrderMapper orderMapper;
+    private final OrderCustomerMapper orderCustomerMapper;
 
     @Transactional(readOnly = true)
     public List<OrderDto> findByCustomerId(Long customerId) {
@@ -21,5 +24,9 @@ public class OrderService {
                 .stream()
                 .map(orderMapper::toDto)
                 .toList();
+    }
+
+    public List<OrderCustomerDto> findAll() {
+        return shopOrderRepository.findAllWithCustomer().stream().map(orderCustomerMapper::toDto).toList();
     }
 }

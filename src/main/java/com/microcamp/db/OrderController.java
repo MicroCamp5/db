@@ -1,6 +1,7 @@
 package com.microcamp.db;
 
 
+import com.microcamp.db.dto.OrderCustomerDto;
 import com.microcamp.db.dto.OrderDto;
 import com.microcamp.db.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,13 @@ public class OrderController {
 
     private final OrderService orderService;
     @GetMapping("/customer/{customerId}")
-    public List<OrderDto> orders(@PathVariable Long customerId){
+    public List<OrderDto> ordersCustomer(@PathVariable Long customerId){
         return orderService.findByCustomerId(customerId);
     }
+
+    @GetMapping
+    public List<OrderCustomerDto> orders(){
+        return orderService.findAll();
+    }
+
 }

@@ -6,6 +6,9 @@ import com.microcamp.db.repository.CustomerRepository;
 import com.microcamp.db.repository.ShopOrderRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,9 +17,9 @@ public class InitOrderComponent {
     private final ShopOrderRepository shopOrderRepository;
     private final CustomerRepository customerRepository;
 
-    @PostConstruct
-    public void init() {
-        if (shopOrderRepository.count() == 0) {
+    @EventListener
+    public void init(ContextRefreshedEvent ctxStartEvt) {
+        if (customerRepository.count() == 0) {
             Customer customer = new Customer("Krzysztof", "krzszy", null);
 //        Customer customer2 = new Customer("Krzysztof", "krzszy", null);
             Customer customer1 = customerRepository.save(customer);

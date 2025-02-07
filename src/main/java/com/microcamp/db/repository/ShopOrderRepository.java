@@ -11,4 +11,7 @@ import java.util.List;
 public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
     @Query("SELECT so FROM ShopOrder so where so.customer.id = ?1")
     List<ShopOrder> findByCustomerId(Long customerId);
+
+    @Query("SELECT so FROM ShopOrder so join fetch so.customer")
+    List<ShopOrder> findAllWithCustomer();
 }

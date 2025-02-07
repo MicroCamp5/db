@@ -2,6 +2,7 @@ package com.microcamp.db.service;
 
 import com.microcamp.db.domain.Customer;
 import com.microcamp.db.dto.CustomerDto;
+import com.microcamp.db.mapper.CustomerMapper;
 import com.microcamp.db.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,24 +13,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
-    private static CustomerDto map(Customer customer) {
-        CustomerDto customerDto = new CustomerDto();
-        customerDto.setId(customer.getId());
-        customerDto.setDateBirth(customer.getDateBirth());
-        customerDto.setName(customer.getName());
-        customerDto.setUniqueKey(customer.getUniqueKey());
-        return customerDto;
-    }
 
     public List<CustomerDto> findAll() {
         return customerRepository.findAll().stream()
-                .map(customer -> map(customer)).toList();
+                .map(customerMapper::toDto).toList();
     }
 
     public CustomerDto findById(Long id) {
         return customerRepository.findById(id)
-                .map(customer -> map(customer))
+                .map(customerMapper::toDto)
                 .orElseThrow();
     }
 }
